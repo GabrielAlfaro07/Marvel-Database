@@ -48,7 +48,10 @@ export default function App() {
         <Header />
         <View className="flex flex-wrap flex-row justify-around">
           {characters.map((character) => (
-            <CharacterCard key={character.id} character={character} />
+            <CharacterCard
+              key={character.id}
+              character={{ ...character, name: character.name.toUpperCase() }} // Transform name to uppercase
+            />
           ))}
         </View>
         <View className="flex justify-center items-center mt-4">

@@ -1,18 +1,49 @@
 import React from "react";
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, Dimensions } from "react-native";
+
+// Get the screen width to calculate the card size
+const screenWidth = Dimensions.get("window").width;
+const cardWidth = screenWidth / 2 - 16; // Dividing the screen width by 2 and accounting for margins
+
+// Fixed height for the card content to allow for up to three lines of text
+const cardHeight = 280; // Adjust this value as needed
 
 const CharacterCard = ({ character }) => {
   return (
-    <View className="bg-white p-4 m-2 rounded-lg shadow-lg">
+    <View
+      className="m-2 rounded-lg overflow-hidden bg-gray-800"
+      style={{ width: cardWidth, height: cardHeight }}
+    >
       <Image
         source={{
           uri: `${character.thumbnail.path}.${character.thumbnail.extension}`,
         }}
-        style={{ width: 150, height: 120 }}
-        className="rounded"
+        style={{ width: cardWidth, height: 180 }}
+        className="rounded-none"
       />
-      <Text className="text-center font-bold mt-2">{character.name}</Text>
-      <Text className="text-center text-gray-500">ID: {character.id}</Text>
+      <View className="p-2 flex-1 justify-between">
+        <Text
+          style={{
+            fontFamily: "MarvelRegular", // Use the loaded font
+            color: "white", // Set text color to white
+            maxHeight: 60, // Ensure the text doesn't overflow
+          }}
+          className="text-center text-xl" // NativeWind classes
+          numberOfLines={2}
+          adjustsFontSizeToFit
+        >
+          {character.name}
+        </Text>
+        <Text
+          style={{
+            fontFamily: "MarvelRegular", // Use the loaded font
+            color: "white", // Set text color to white
+          }}
+          className="text-center text-base" // NativeWind classes
+        >
+          ID: {character.id}
+        </Text>
+      </View>
     </View>
   );
 };
