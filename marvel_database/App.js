@@ -1,30 +1,24 @@
 import React, { useEffect, useState } from "react";
-import {
-  ScrollView,
-  View,
-  Text,
-  ActivityIndicator,
-  Button,
-} from "react-native";
+import { ScrollView, View, ActivityIndicator, Button } from "react-native";
 import CharacterCard from "./components/CharacterCard";
 import { fetchCharacters } from "./services/characterService";
-import { loadFonts } from "./services/fontService"; // Import the font service
+import { loadFonts } from "./services/fontService";
+import Header from "./components/Header"; // Import the header component
 
 export default function App() {
   const [characters, setCharacters] = useState([]);
   const [loading, setLoading] = useState(true);
   const [fontsLoaded, setFontsLoaded] = useState(false);
-  const [offset, setOffset] = useState(0); // Dynamic offset state
-  const limit = 20; // Static limit, you can change it as per need
+  const [offset, setOffset] = useState(0);
+  const limit = 20;
 
   const getCharacters = async (offset, limit) => {
     setLoading(true);
-    const data = await fetchCharacters(offset, limit); // Fetch with dynamic offset and limit
+    const data = await fetchCharacters(offset, limit);
     setCharacters(data);
     setLoading(false);
   };
 
-  // Load fonts on app mount
   useEffect(() => {
     const fetchData = async () => {
       await loadFonts();
@@ -50,9 +44,8 @@ export default function App() {
   return (
     <>
       <ScrollView className="bg-gray-300">
-        <Text className="text-xl" style={{ fontFamily: "MarvelRegular" }}>
-          WELCOME TO THE MARVEL DATABASE
-        </Text>
+        {/* Include the header component */}
+        <Header />
         <View className="flex flex-wrap flex-row justify-around">
           {characters.map((character) => (
             <CharacterCard key={character.id} character={character} />
