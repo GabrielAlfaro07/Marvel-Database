@@ -23,7 +23,7 @@ export const fetchCharacters = async (offset, limit) => {
   }
 };
 
-// 1. Function to get the information of a specific character by ID
+// Function to get the information of a specific character by ID
 export const fetchCharacterById = async (characterId) => {
   const authParams = generateAuthParams();
   const url = `${API_BASE_URL}/v1/public/characters/${characterId}?${authParams}`;
@@ -38,7 +38,7 @@ export const fetchCharacterById = async (characterId) => {
   }
 };
 
-// 2. Function to get a specific character's comics
+// Function to get a specific character's comics
 export const fetchCharacterComics = async (characterId) => {
   const authParams = generateAuthParams();
   const url = `${API_BASE_URL}/v1/public/characters/${characterId}/comics?${authParams}`;
@@ -53,7 +53,7 @@ export const fetchCharacterComics = async (characterId) => {
   }
 };
 
-// 3. Function to get a specific character's events
+// Function to get a specific character's events
 export const fetchCharacterEvents = async (characterId) => {
   const authParams = generateAuthParams();
   const url = `${API_BASE_URL}/v1/public/characters/${characterId}/events?${authParams}`;
@@ -68,7 +68,7 @@ export const fetchCharacterEvents = async (characterId) => {
   }
 };
 
-// 4. Function to get a specific character's series
+// Function to get a specific character's series
 export const fetchCharacterSeries = async (characterId) => {
   const authParams = generateAuthParams();
   const url = `${API_BASE_URL}/v1/public/characters/${characterId}/series?${authParams}`;
@@ -83,7 +83,7 @@ export const fetchCharacterSeries = async (characterId) => {
   }
 };
 
-// 5. Function to get a specific character's stories
+// Function to get a specific character's stories
 export const fetchCharacterStories = async (characterId) => {
   const authParams = generateAuthParams();
   const url = `${API_BASE_URL}/v1/public/characters/${characterId}/stories?${authParams}`;
