@@ -29,7 +29,7 @@ const StoryCard = ({ story }) => {
             minHeight: 40, // Ensures space for at least 1 line of text, but centers it
             maxHeight: 60, // Ensure the text doesn't overflow more than 2 lines
           }}
-          className="text-center text-2xl" // NativeWind classes
+          className="text-center text-xl" // NativeWind classes
           numberOfLines={2}
         >
           {story.title}

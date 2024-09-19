@@ -5,10 +5,10 @@ import { View, Text, Image, Dimensions } from "react-native";
 const screenWidth = Dimensions.get("window").width;
 const cardWidth = screenWidth / 2 - 24; // Dividing the screen width by 2 and accounting for margins
 
-// Fixed height for the card content
+// Fixed height for the card content to allow for up to three lines of text
 const cardHeight = 280; // Adjust this value as needed
 
-const EventCard = ({ event }) => {
+const SeriesCard = ({ series }) => {
   return (
     <View
       className="m-2 rounded-lg overflow-hidden bg-gray-800"
@@ -16,7 +16,7 @@ const EventCard = ({ event }) => {
     >
       <Image
         source={{
-          uri: `${event.thumbnail.path}.${event.thumbnail.extension}`,
+          uri: `${series.thumbnail.path}.${series.thumbnail.extension}`,
         }}
         style={{ width: cardWidth, height: 180 }}
         className="rounded-none"
@@ -29,14 +29,14 @@ const EventCard = ({ event }) => {
             minHeight: 40, // Ensures space for at least 1 line of text, but centers it
             maxHeight: 60, // Ensure the text doesn't overflow more than 2 lines
           }}
-          className="text-center text-2xl" // NativeWind classes
+          className="text-center text-xl" // NativeWind classes
           numberOfLines={2}
         >
-          {event.title}
+          {series.title}
         </Text>
       </View>
     </View>
   );
 };
 
-export default EventCard;
+export default SeriesCard;
