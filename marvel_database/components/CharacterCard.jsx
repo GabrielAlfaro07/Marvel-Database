@@ -1,9 +1,7 @@
 import React from "react";
-import { View, Text, Image, Dimensions } from "react-native";
+import { View, Text, Image } from "react-native";
 
-// Get the screen width to calculate the card size
-const screenWidth = Dimensions.get("window").width;
-const cardWidth = screenWidth / 2 - 16; // Dividing the screen width by 2 and accounting for margins
+const cardWidth = 180;
 
 // Fixed height for the card content to allow for up to three lines of text
 const cardHeight = 280; // Adjust this value as needed
