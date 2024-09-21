@@ -1,14 +1,14 @@
-import React from 'react';
-import { View, Text, Image, Dimensions, TouchableOpacity } from 'react-native';
+import React from "react";
+import { View, Text, Image, Dimensions, TouchableOpacity } from "react-native";
 
-const screenWidth = Dimensions.get('window').width;
+const screenWidth = Dimensions.get("window").width;
 const cardWidth = screenWidth / 2 - 24;
-const cardHeight = 264;
+const cardHeight = 280;
 
 const CharacterCard = ({ character, navigation }) => {
   return (
     <TouchableOpacity
-      onPress={() => navigation.navigate('Character Details', { character })}
+      onPress={() => navigation.navigate("Character Details", { character })}
     >
       <View
         className="m-2 rounded-lg overflow-hidden bg-gray-800"
@@ -18,14 +18,14 @@ const CharacterCard = ({ character, navigation }) => {
           source={{
             uri: `${character.thumbnail.path}.${character.thumbnail.extension}`,
           }}
-          style={{ width: cardWidth, height: 180 }}
+          style={{ width: cardWidth, height: 200 }}
           className="rounded-none"
         />
         <View className="p-2 flex-1 justify-center items-center">
           <Text
             style={{
-              fontFamily: 'MarvelRegular',
-              color: 'white',
+              fontFamily: "MarvelRegular",
+              color: "white",
             }}
             className="text-center text-xl"
             numberOfLines={2}

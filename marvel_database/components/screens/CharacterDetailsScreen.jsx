@@ -1,6 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, Image, ScrollView, ActivityIndicator, StyleSheet } from 'react-native';
-import { fetchCharacterComics, fetchCharacterSeries, fetchCharacterEvents, fetchCharacterStories } from '../../services/characterService';
+import React, { useEffect, useState } from "react";
+import { View, Text, Image, ScrollView, ActivityIndicator } from "react-native";
+import {
+  fetchCharacterComics,
+  fetchCharacterSeries,
+  fetchCharacterEvents,
+  fetchCharacterStories,
+} from "../../services/characterService";
+import ComicCard from "../cards/ComicCard";
+import EventCard from "../cards/EventCard";
+import SeriesCard from "../cards/SeriesCard";
+import StoryCard from "../cards/StoryCard";
+import Carousel from "../carousel/Carousel"; // Import the Carousel component
 
 const CharacterDetailsScreen = ({ route }) => {
   const { character } = route.params;
@@ -14,12 +24,13 @@ const CharacterDetailsScreen = ({ route }) => {
   useEffect(() => {
     const loadCharacterDetails = async () => {
       setLoading(true);
-      const [comicsData, seriesData, eventsData, storiesData] = await Promise.all([
-        fetchCharacterComics(character.id),
-        fetchCharacterSeries(character.id),
-        fetchCharacterEvents(character.id),
-        fetchCharacterStories(character.id),
-      ]);
+      const [comicsData, seriesData, eventsData, storiesData] =
+        await Promise.all([
+          fetchCharacterComics(character.id),
+          fetchCharacterSeries(character.id),
+          fetchCharacterEvents(character.id),
+          fetchCharacterStories(character.id),
+        ]);
       setComics(comicsData);
       setSeries(seriesData);
       setEvents(eventsData);
@@ -31,65 +42,82 @@ const CharacterDetailsScreen = ({ route }) => {
   }, [character.id]);
 
   const Skeleton = () => (
-    <View style={styles.skeleton}>
+    <View className="flex-1 justify-center items-center">
       <ActivityIndicator size="large" color="#e63946" />
-      <Text style={styles.loadingText}>Cargando datos...</Text>
+      <Text className="mt-2 text-gray-600">Loading details...</Text>
     </View>
   );
 
-  const Carousel = ({ data, type }) => {
-    if (data.length === 0) {
-      return <Text style={styles.emptyText}>No {type} available.</Text>;
-    }
-
-    return (
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.carouselContainer}>
-        {data.map((item) => (
-          <View key={item.id} style={styles.carouselItem}>
-            <Image
-              source={{
-                uri: item.thumbnail
-                  ? `${item.thumbnail.path}.${item.thumbnail.extension}`
-                  : 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg',
-              }}
-              style={styles.carouselImage}
-            />
-            <Text style={styles.carouselText}>{item.title}</Text>
-          </View>
-        ))}
-      </ScrollView>
-    );
-  };
-
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView className="flex-1 bg-gray-100 p-4">
       {loading ? (
         <Skeleton />
       ) : (
         <>
-          <View style={styles.characterImageContainer}>
+          <View className="items-center mb-5">
             <Image
               source={{
                 uri: `${character.thumbnail.path}.${character.thumbnail.extension}`,
               }}
-              style={styles.characterImage}
+              className="w-full aspect-square rounded-xl"
+              resizeMode="cover"
             />
           </View>
-          
-          <Text style={styles.characterName}>{character.name}</Text>
-          <Text style={styles.characterDescription}>
-            {character.description || 'No description available.'}
+
+          <Text
+            className="text-3xl font-bold text-center text-gray-800 mb-2"
+            style={{
+              fontFamily: "MarvelRegular",
+            }}
+          >
+            {character.name}
+          </Text>
+          <Text
+            className="text-center text-lg text-gray-600 mb-5"
+            style={{
+              lineHeight: 22, // Reduced line height for less space between lines
+              fontFamily: character.description ? "System" : "MarvelRegular", // Apply Marvel font if no description
+            }}
+          >
+            {character.description || "No description available."}
           </Text>
 
           {[
-            { title: 'Comics Available:', data: comics },
-            { title: 'Series Available:', data: series },
-            { title: 'Events Available:', data: events },
-            { title: 'Stories Available:', data: stories },
-          ].map(({ title, data }) => (
+            {
+              title: "Comics Available:",
+              data: comics,
+              CardComponent: ComicCard,
+              type: "comic",
+            },
+            {
+              title: "Series Available:",
+              data: series,
+              CardComponent: SeriesCard,
+              type: "series",
+            },
+            {
+              title: "Events Available:",
+              data: events,
+              CardComponent: EventCard,
+              type: "event",
+            },
+            {
+              title: "Stories Available:",
+              data: stories,
+              CardComponent: StoryCard,
+              type: "story",
+            },
+          ].map(({ title, data, CardComponent, type }) => (
             <View key={title}>
-              <Text style={styles.sectionTitle}>{title} {data.length}</Text>
-              <Carousel data={data} type={title.toLowerCase().replace(' available:', '')} />
+              <Text
+                className="text-xl font-bold text-gray-800 mb-2"
+                style={{
+                  fontFamily: "MarvelRegular",
+                }}
+              >
+                {title} {data.length}
+              </Text>
+              <Carousel data={data} CardComponent={CardComponent} type={type} />
             </View>
           ))}
         </>
@@ -97,84 +125,5 @@ const CharacterDetailsScreen = ({ route }) => {
     </ScrollView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F4F4F4',
-    padding: 16,
-  },
-  characterImageContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  characterImage: {
-    width: 200,
-    height: 200,
-    borderRadius: 100,
-    borderWidth: 2,
-    borderColor: '#e63946',
-  },
-  characterName: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginBottom: 10,
-    color: '#1d3557',
-  },
-  characterDescription: {
-    fontSize: 16,
-    textAlign: 'center',
-    marginBottom: 20,
-    color: '#666',
-  },
-  sectionTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 10,
-    color: '#457b9d',
-  },
-  carouselContainer: {
-    marginBottom: 20,
-  },
-  carouselItem: {
-    marginRight: 15,
-    alignItems: 'center',
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    padding: 10,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    elevation: 2,
-  },
-  carouselImage: {
-    width: 150,
-    height: 200,
-    borderRadius: 10,
-  },
-  carouselText: {
-    marginTop: 5,
-    width: 150,
-    textAlign: 'center',
-    color: '#1d3557',
-  },
-  skeleton: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  loadingText: {
-    marginTop: 10,
-    color: '#666',
-  },
-  emptyText: {
-    textAlign: 'center',
-    color: '#999',
-    fontStyle: 'italic',
-  },
-});
 
 export default CharacterDetailsScreen;

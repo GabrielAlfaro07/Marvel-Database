@@ -18,7 +18,7 @@ const EventCard = ({ event }) => {
         source={{
           uri: `${event.thumbnail.path}.${event.thumbnail.extension}`,
         }}
-        style={{ width: cardWidth, height: 180 }}
+        style={{ width: cardWidth, height: 200 }}
         className="rounded-none"
       />
       <View className="p-2 flex-1 justify-between">

@@ -16,9 +16,11 @@ const StoryCard = ({ story }) => {
     >
       <Image
         source={{
-          uri: `${story.thumbnail.path}.${story.thumbnail.extension}`,
+          uri: story.thumbnail
+            ? `${story.thumbnail.path}.${story.thumbnail.extension}`
+            : "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg",
         }}
-        style={{ width: cardWidth, height: 180 }}
+        style={{ width: cardWidth, height: 200 }}
         className="rounded-none"
       />
       <View className="p-2 flex-1 justify-between">
