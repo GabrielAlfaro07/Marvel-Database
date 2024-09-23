@@ -65,7 +65,7 @@ const CharacterDetailsScreen = ({ route }) => {
           </View>
 
           <Text
-            className="text-3xl font-bold text-center text-gray-800 mb-2"
+            className="text-3xl text-center text-gray-800 mb-2"
             style={{
               fontFamily: "MarvelRegular",
             }}
@@ -110,7 +110,7 @@ const CharacterDetailsScreen = ({ route }) => {
           ].map(({ title, data, CardComponent, type }) => (
             <View key={title}>
               <Text
-                className="text-xl font-bold text-gray-800 mb-2"
+                className="text-xl text-gray-800 mb-2"
                 style={{
                   fontFamily: "MarvelRegular",
                 }}
