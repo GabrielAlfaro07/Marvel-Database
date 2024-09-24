@@ -1,22 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { View, ActivityIndicator, ScrollView } from "react-native";
-import CharacterCard from "../cards/CharacterCard";
-import { fetchCharacters } from "../../services/charactersService";
-import { loadFonts } from "../../services/fontService";
-import PreviousButton from "../buttons/PreviousButton";
-import NextButton from "../buttons/NextButton";
+import SeriesCard from "../../cards/SeriesCard";
+import { fetchSeries } from "../../../services/seriesService";
+import { loadFonts } from "../../../services/fontService";
+import PreviousButton from "../../buttons/PreviousButton";
+import NextButton from "../../buttons/NextButton";
 
-const CharactersListScreen = ({ navigation }) => {
-  const [characters, setCharacters] = useState([]);
+const SeriesListScreen = ({ navigation }) => {
+  const [series, setSeries] = useState([]);
   const [loading, setLoading] = useState(true);
   const [fontsLoaded, setFontsLoaded] = useState(false);
   const [offset, setOffset] = useState(0);
   const limit = 20;
 
-  const getCharacters = async (offset, limit) => {
+  const getSeries = async (offset, limit) => {
     setLoading(true);
-    const data = await fetchCharacters(offset, limit);
-    setCharacters(data);
+    const data = await fetchSeries(offset, limit);
+    setSeries(data);
     setLoading(false);
   };
 
@@ -30,7 +30,7 @@ const CharactersListScreen = ({ navigation }) => {
 
   useEffect(() => {
     if (fontsLoaded) {
-      getCharacters(offset, limit);
+      getSeries(offset, limit);
     }
   }, [fontsLoaded, offset]);
 
@@ -50,10 +50,10 @@ const CharactersListScreen = ({ navigation }) => {
       </View>
 
       <View className="flex flex-wrap flex-row justify-around mt-4">
-        {characters.map((character) => (
-          <CharacterCard
-            key={character.id}
-            character={{ ...character, name: character.name.toUpperCase() }}
+        {series.map((serie) => (
+          <SeriesCard
+            key={serie.id}
+            series={{ ...serie, title: serie.title.toUpperCase() }}
             navigation={navigation}
           />
         ))}
@@ -62,4 +62,4 @@ const CharactersListScreen = ({ navigation }) => {
   );
 };
 
-export default CharactersListScreen;
+export default SeriesListScreen;

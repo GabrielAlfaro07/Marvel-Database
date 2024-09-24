@@ -5,12 +5,12 @@ import {
   fetchCharacterSeries,
   fetchCharacterEvents,
   fetchCharacterStories,
-} from "../../services/charactersService";
-import ComicCard from "../cards/ComicCard";
-import EventCard from "../cards/EventCard";
-import SeriesCard from "../cards/SeriesCard";
-import StoryCard from "../cards/StoryCard";
-import Carousel from "../carousel/Carousel"; // Import the Carousel component
+} from "../../../services/charactersService";
+import ComicCard from "../../cards/ComicCard";
+import EventCard from "../../cards/EventCard";
+import SeriesCard from "../../cards/SeriesCard";
+import StoryCard from "../../cards/StoryCard";
+import Carousel from "../../carousel/Carousel"; // Import the Carousel component
 
 const CharacterDetailsScreen = ({ route }) => {
   const { character } = route.params;
