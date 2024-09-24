@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { View, ActivityIndicator, ScrollView } from 'react-native';
-import CharacterCard from '../cards/CharacterCard';
-import { fetchCharacters } from '../../services/characterService';
-import { loadFonts } from '../../services/fontService';
-import PreviousButton from '../buttons/PreviousButton';
-import NextButton from '../buttons/NextButton';
+import React, { useEffect, useState } from "react";
+import { View, ActivityIndicator, ScrollView } from "react-native";
+import CharacterCard from "../cards/CharacterCard";
+import { fetchCharacters } from "../../services/charactersService";
+import { loadFonts } from "../../services/fontService";
+import PreviousButton from "../buttons/PreviousButton";
+import NextButton from "../buttons/NextButton";
 
 const CharactersListScreen = ({ navigation }) => {
   const [characters, setCharacters] = useState([]);

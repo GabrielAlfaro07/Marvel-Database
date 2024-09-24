@@ -5,7 +5,7 @@ import {
   fetchCharacterSeries,
   fetchCharacterEvents,
   fetchCharacterStories,
-} from "../../services/characterService";
+} from "../../services/charactersService";
 import ComicCard from "../cards/ComicCard";
 import EventCard from "../cards/EventCard";
 import SeriesCard from "../cards/SeriesCard";
