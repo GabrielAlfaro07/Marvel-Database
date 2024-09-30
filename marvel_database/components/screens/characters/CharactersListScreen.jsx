@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, ActivityIndicator, ScrollView } from "react-native";
+import { View, ActivityIndicator, ScrollView, Text } from "react-native";
 import CharacterCard from "../../cards/CharacterCard";
 import { fetchCharacters } from "../../../services/charactersService";
 import { loadFonts } from "../../../services/fontService";
@@ -11,7 +11,7 @@ const CharactersListScreen = ({ navigation }) => {
   const [loading, setLoading] = useState(true);
   const [fontsLoaded, setFontsLoaded] = useState(false);
   const [offset, setOffset] = useState(0);
-  const limit = 20;
+  const limit = 30; // Increased limit to load 30 characters per page
 
   const getCharacters = async (offset, limit) => {
     setLoading(true);
@@ -50,10 +50,11 @@ const CharactersListScreen = ({ navigation }) => {
       </View>
 
       <View className="flex flex-wrap flex-row justify-around mt-4">
-        {characters.map((character) => (
+        {characters.map((character, index) => (
           <CharacterCard
-            key={character.id}
-            character={{ ...character, name: character.name.toUpperCase() }}
+            key={index}
+            character={character}
+            loading={!character.name} // Mark as loading if name isn't available
             navigation={navigation}
           />
         ))}

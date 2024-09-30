@@ -117,7 +117,11 @@ const CharacterDetailsScreen = ({ route }) => {
               >
                 {title} {data.length}
               </Text>
-              <Carousel data={data} CardComponent={CardComponent} type={type} />
+              <Carousel
+                data={data.map((item) => ({ ...item, loading: !item.title }))}
+                CardComponent={CardComponent}
+                type={type}
+              />
             </View>
           ))}
         </>
