@@ -55,7 +55,6 @@ const ComicsListScreen = ({ navigation }) => {
             key={comic.id}
             comic={{ ...comic, title: comic.title.toUpperCase() }}
             loading={!comic.title}
-            navigation={navigation}
           />
         ))}
       </View>

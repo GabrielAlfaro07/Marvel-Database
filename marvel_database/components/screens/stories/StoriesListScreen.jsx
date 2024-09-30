@@ -55,7 +55,6 @@ const StoriesListScreen = ({ navigation }) => {
             key={story.id}
             story={{ ...story, title: story.title.toUpperCase() }}
             loading={!story.title}
-            navigation={navigation}
           />
         ))}
       </View>

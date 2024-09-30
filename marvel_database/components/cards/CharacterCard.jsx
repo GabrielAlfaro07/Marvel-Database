@@ -1,11 +1,14 @@
 import React from "react";
 import { View, Text, Image, Dimensions, TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 const screenWidth = Dimensions.get("window").width;
 const cardWidth = screenWidth / 2 - 24;
 const cardHeight = 280;
 
-const CharacterCard = ({ character, loading, navigation }) => {
+const CharacterCard = ({ character, loading }) => {
+  const navigation = useNavigation(); // Get navigation object
+
   return (
     <TouchableOpacity
       onPress={() =>

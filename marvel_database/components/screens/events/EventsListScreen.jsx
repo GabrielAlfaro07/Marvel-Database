@@ -55,7 +55,6 @@ const EventsListScreen = ({ navigation }) => {
             key={event.id}
             event={{ ...event, title: event.title.toUpperCase() }}
             loading={!event.title}
-            navigation={navigation}
           />
         ))}
       </View>

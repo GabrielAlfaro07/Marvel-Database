@@ -11,7 +11,7 @@ const CreatorsListScreen = ({ navigation }) => {
   const [loading, setLoading] = useState(true);
   const [fontsLoaded, setFontsLoaded] = useState(false);
   const [offset, setOffset] = useState(0);
-  const limit = 20;
+  const limit = 30;
 
   const getCreators = async (offset, limit) => {
     setLoading(true);
@@ -55,7 +55,6 @@ const CreatorsListScreen = ({ navigation }) => {
             key={creator.id}
             creator={{ ...creator, fullName: creator.fullName.toUpperCase() }}
             loading={!creator.fullName}
-            navigation={navigation}
           />
         ))}
       </View>

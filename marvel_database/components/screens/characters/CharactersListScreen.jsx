@@ -55,7 +55,6 @@ const CharactersListScreen = ({ navigation }) => {
             key={index}
             character={character}
             loading={!character.name} // Mark as loading if name isn't available
-            navigation={navigation}
           />
         ))}
       </View>
