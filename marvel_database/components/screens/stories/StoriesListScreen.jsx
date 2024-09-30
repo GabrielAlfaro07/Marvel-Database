@@ -54,6 +54,7 @@ const StoriesListScreen = ({ navigation }) => {
           <StoryCard
             key={story.id}
             story={{ ...story, title: story.title.toUpperCase() }}
+            loading={!story.title}
             navigation={navigation}
           />
         ))}

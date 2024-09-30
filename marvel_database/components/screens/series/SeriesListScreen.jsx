@@ -54,6 +54,7 @@ const SeriesListScreen = ({ navigation }) => {
           <SeriesCard
             key={serie.id}
             series={{ ...serie, title: serie.title.toUpperCase() }}
+            loading={!serie.title}
             navigation={navigation}
           />
         ))}

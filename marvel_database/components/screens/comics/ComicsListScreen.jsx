@@ -11,7 +11,7 @@ const ComicsListScreen = ({ navigation }) => {
   const [loading, setLoading] = useState(true);
   const [fontsLoaded, setFontsLoaded] = useState(false);
   const [offset, setOffset] = useState(0);
-  const limit = 20;
+  const limit = 30;
 
   const getComics = async (offset, limit) => {
     setLoading(true);
@@ -54,6 +54,7 @@ const ComicsListScreen = ({ navigation }) => {
           <ComicCard
             key={comic.id}
             comic={{ ...comic, title: comic.title.toUpperCase() }}
+            loading={!comic.title}
             navigation={navigation}
           />
         ))}

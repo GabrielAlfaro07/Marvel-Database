@@ -24,7 +24,12 @@ const Carousel = ({ data, CardComponent, type }) => {
       {data.map((item) => (
         <CardComponent
           key={item.id}
-          {...{ [type]: { ...item, title: item.title.toUpperCase() } }}
+          {...{
+            [type]: {
+              ...item,
+              title: item.title ? item.title.toUpperCase() : "UNKNOWN TITLE",
+            },
+          }}
         />
       ))}
     </ScrollView>

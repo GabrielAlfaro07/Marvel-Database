@@ -17,7 +17,6 @@ const CharacterCard = ({ character, loading, navigation }) => {
         style={{ width: cardWidth, height: cardHeight }}
       >
         {loading ? (
-          // Placeholder view when character data is not loaded
           <View className="flex-1 justify-center items-center bg-gray-500">
             <Text
               className="text-center text-white text-xl"

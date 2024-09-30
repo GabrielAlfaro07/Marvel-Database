@@ -54,6 +54,7 @@ const CreatorsListScreen = ({ navigation }) => {
           <CreatorCard
             key={creator.id}
             creator={{ ...creator, fullName: creator.fullName.toUpperCase() }}
+            loading={!creator.fullName}
             navigation={navigation}
           />
         ))}

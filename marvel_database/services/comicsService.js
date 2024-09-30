@@ -9,7 +9,7 @@ const generateAuthParams = () => {
 };
 
 // Function to fetch comics with dynamic offset and limit
-export const fetchComic = async (offset, limit) => {
+export const fetchComics = async (offset, limit) => {
   const authParams = generateAuthParams();
   const url = `${API_BASE_URL}/v1/public/comics?${authParams}&offset=${offset}&limit=${limit}`;
 
@@ -39,7 +39,7 @@ export const fetchComicById = async (comicId) => {
 };
 
 // Function to get a specific comic's characters
-export const fetchComicComics = async (comicId) => {
+export const fetchComicCharacters = async (comicId) => {
   const authParams = generateAuthParams();
   const url = `${API_BASE_URL}/v1/public/comics/${comicId}/characters?${authParams}`;
 
