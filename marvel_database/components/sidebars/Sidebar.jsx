@@ -13,7 +13,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         className="absolute top-4 right-4"
         onPress={toggleSidebar}
       >
-        <Text className="text-white">X</Text> {/* Close button */}
+        <Text className="text-white">X</Text>
       </TouchableOpacity>
       <View className="p-4 mt-16">
         <TouchableOpacity

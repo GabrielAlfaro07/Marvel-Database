@@ -6,7 +6,7 @@ const HomeScreen = () => {
     <ScrollView className="flex-1 bg-gray-100">
       <View className="flex-1 justify-center items-center p-8">
         <Text
-          className="text-center text-2xl font-bold text-gray-800 mb-6"
+          className="text-center text-2xl text-gray-800 mb-6"
           style={{ fontFamily: "MarvelRegular" }}
         >
           Welcome to our app!

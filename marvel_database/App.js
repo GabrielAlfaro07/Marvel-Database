@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "react-native-gesture-handler";
+import * as SplashScreen from "expo-splash-screen";
+import { loadFonts } from "./services/fontService"; // Adjust the path accordingly
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import CharactersListScreen from "./components/screens/characters/CharactersListScreen";
@@ -21,7 +23,31 @@ import HomeScreen from "./components/screens/home/HomeScreen";
 const Stack = createStackNavigator();
 
 export default function App() {
+  const [fontsLoaded, setFontsLoaded] = useState(false);
   const [isSidebarOpen, setSidebarOpen] = useState(false);
+
+  useEffect(() => {
+    const loadResources = async () => {
+      try {
+        // Prevent the splash screen from auto-hiding
+        await SplashScreen.preventAutoHideAsync();
+        // Load fonts
+        await loadFonts();
+        setFontsLoaded(true);
+      } catch (error) {
+        console.warn("Error loading fonts", error);
+      } finally {
+        // Hide the splash screen once the fonts are loaded
+        await SplashScreen.hideAsync();
+      }
+    };
+
+    loadResources();
+  }, []);
+
+  if (!fontsLoaded) {
+    return null; // You can return null while the fonts are loading
+  }
 
   const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
 
