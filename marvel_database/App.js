@@ -16,7 +16,6 @@ import SeriesListScreen from "./components/screens/series/SeriesListScreen";
 import SeriesDetailsScreen from "./components/screens/series/SeriesDetailsScreen";
 import StoriesListScreen from "./components/screens/stories/StoriesListScreen";
 import StoryDetailsScreen from "./components/screens/stories/StoryDetailsScreen";
-import SidebarButton from "./components/buttons/SidebarButton";
 import Sidebar from "./components/sidebars/Sidebar";
 import HomeScreen from "./components/screens/home/HomeScreen";
 
@@ -29,15 +28,12 @@ export default function App() {
   useEffect(() => {
     const loadResources = async () => {
       try {
-        // Prevent the splash screen from auto-hiding
         await SplashScreen.preventAutoHideAsync();
-        // Load fonts
         await loadFonts();
         setFontsLoaded(true);
       } catch (error) {
         console.warn("Error loading fonts", error);
       } finally {
-        // Hide the splash screen once the fonts are loaded
         await SplashScreen.hideAsync();
       }
     };
@@ -46,31 +42,47 @@ export default function App() {
   }, []);
 
   if (!fontsLoaded) {
-    return null; // You can return null while the fonts are loading
+    return null;
   }
 
-  const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
+  const toggleSidebar = () => {
+    console.log("Toggling Sidebar:", !isSidebarOpen); // Add this to check state
+    setSidebarOpen((prev) => !prev);
+  };
 
   return (
     <NavigationContainer>
-      <SidebarButton toggleSidebar={toggleSidebar} />
       <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
       <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Characters" component={CharactersListScreen} />
+        <Stack.Screen name="Home">
+          {() => <HomeScreen toggleSidebar={toggleSidebar} />}
+        </Stack.Screen>
+        <Stack.Screen name="Characters">
+          {() => <CharactersListScreen toggleSidebar={toggleSidebar} />}
+        </Stack.Screen>
         <Stack.Screen
           name="Character Details"
           component={CharacterDetailsScreen}
         />
-        <Stack.Screen name="Comics" component={ComicsListScreen} />
+        <Stack.Screen name="Comics">
+          {() => <ComicsListScreen toggleSidebar={toggleSidebar} />}
+        </Stack.Screen>
         <Stack.Screen name="Comic Details" component={ComicDetailsScreen} />
-        <Stack.Screen name="Creators" component={CreatorsListScreen} />
+        <Stack.Screen name="Creators">
+          {() => <CreatorsListScreen toggleSidebar={toggleSidebar} />}
+        </Stack.Screen>
         <Stack.Screen name="Creator Details" component={CreatorDetailsScreen} />
-        <Stack.Screen name="Events" component={EventsListScreen} />
+        <Stack.Screen name="Events">
+          {() => <EventsListScreen toggleSidebar={toggleSidebar} />}
+        </Stack.Screen>
         <Stack.Screen name="Event Details" component={EventDetailsScreen} />
-        <Stack.Screen name="Series" component={SeriesListScreen} />
+        <Stack.Screen name="Series">
+          {() => <SeriesListScreen toggleSidebar={toggleSidebar} />}
+        </Stack.Screen>
         <Stack.Screen name="Series Details" component={SeriesDetailsScreen} />
-        <Stack.Screen name="Stories" component={StoriesListScreen} />
+        <Stack.Screen name="Stories">
+          {() => <StoriesListScreen toggleSidebar={toggleSidebar} />}
+        </Stack.Screen>
         <Stack.Screen name="Story Details" component={StoryDetailsScreen} />
       </Stack.Navigator>
     </NavigationContainer>

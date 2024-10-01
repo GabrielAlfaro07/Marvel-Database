@@ -5,8 +5,9 @@ import { fetchCharacters } from "../../../services/charactersService";
 import { loadFonts } from "../../../services/fontService";
 import PreviousButton from "../../buttons/PreviousButton";
 import NextButton from "../../buttons/NextButton";
+import SidebarButton from "../../buttons/SidebarButton";
 
-const CharactersListScreen = ({ navigation }) => {
+const CharactersListScreen = ({ navigation, toggleSidebar }) => {
   const [characters, setCharacters] = useState([]);
   const [loading, setLoading] = useState(true);
   const [fontsLoaded, setFontsLoaded] = useState(false);
@@ -43,8 +44,24 @@ const CharactersListScreen = ({ navigation }) => {
   }
 
   return (
-    <ScrollView className="bg-gray-300">
-      <View className="flex justify-center items-center mt-4 flex-row">
+    <ScrollView className="bg-gray-100">
+      <SidebarButton toggleSidebar={toggleSidebar} />
+      <View className="flex-1 justify-center items-center p-8">
+        <Text
+          className="text-center text-2xl text-gray-800 mb-6"
+          style={{ fontFamily: "MarvelRegular" }}
+        >
+          Marvel Characters
+        </Text>
+        <Text
+          className="text-center text-lg text-gray-600"
+          style={{ fontFamily: "MarvelRegular" }}
+        >
+          Here, you can explore the characters that shape and partake in the
+          events of the Marvel Universe!
+        </Text>
+      </View>
+      <View className="flex justify-center items-center flex-row">
         <PreviousButton offset={offset} setOffset={setOffset} limit={limit} />
         <NextButton offset={offset} setOffset={setOffset} limit={limit} />
       </View>

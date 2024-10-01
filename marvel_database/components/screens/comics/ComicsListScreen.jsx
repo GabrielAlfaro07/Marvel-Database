@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { View, ActivityIndicator, ScrollView } from "react-native";
+import { View, ActivityIndicator, ScrollView, Text } from "react-native";
 import ComicCard from "../../cards/ComicCard";
 import { fetchComics } from "../../../services/comicsService";
 import { loadFonts } from "../../../services/fontService";
 import PreviousButton from "../../buttons/PreviousButton";
 import NextButton from "../../buttons/NextButton";
+import SidebarButton from "../../buttons/SidebarButton";
 
-const ComicsListScreen = ({ navigation }) => {
+const ComicsListScreen = ({ navigation, toggleSidebar }) => {
   const [comics, setComics] = useState([]);
   const [loading, setLoading] = useState(true);
   const [fontsLoaded, setFontsLoaded] = useState(false);
@@ -43,12 +44,27 @@ const ComicsListScreen = ({ navigation }) => {
   }
 
   return (
-    <ScrollView className="bg-gray-300">
-      <View className="flex justify-center items-center mt-4 flex-row">
+    <ScrollView className="bg-gray-100">
+      <SidebarButton toggleSidebar={toggleSidebar} />
+      <View className="flex-1 justify-center items-center p-8">
+        <Text
+          className="text-center text-2xl text-gray-800 mb-6"
+          style={{ fontFamily: "MarvelRegular" }}
+        >
+          Marvel Comics
+        </Text>
+        <Text
+          className="text-center text-lg text-gray-600"
+          style={{ fontFamily: "MarvelRegular" }}
+        >
+          In this page you will find the comics of the Marvel Universe, where
+          everything takes place!
+        </Text>
+      </View>
+      <View className="flex justify-center items-center flex-row">
         <PreviousButton offset={offset} setOffset={setOffset} limit={limit} />
         <NextButton offset={offset} setOffset={setOffset} limit={limit} />
       </View>
-
       <View className="flex flex-wrap flex-row justify-around mt-4">
         {comics.map((comic) => (
           <ComicCard

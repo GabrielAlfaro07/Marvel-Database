@@ -1,9 +1,11 @@
 import React from "react";
 import { View, Text, ScrollView } from "react-native";
+import SidebarButton from "../../buttons/SidebarButton"; // Adjust the path accordingly
 
-const HomeScreen = () => {
+const HomeScreen = ({ toggleSidebar }) => {
   return (
     <ScrollView className="flex-1 bg-gray-100">
+      <SidebarButton toggleSidebar={toggleSidebar} />
       <View className="flex-1 justify-center items-center p-8">
         <Text
           className="text-center text-2xl text-gray-800 mb-6"
