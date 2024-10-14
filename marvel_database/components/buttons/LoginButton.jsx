@@ -9,18 +9,24 @@ import {
 const LoginButton = ({ setUser, setProfile }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [username, setUsername] = useState(""); // New state for username in Sign Up mode
   const [error, setError] = useState(null);
+  const [isSignUp, setIsSignUp] = useState(false); // Toggle between login and sign-up modes
 
   const handleLogin = async () => {
-    // Try logging in
-    let { user, error } = await loginUser(email, password);
+    let user;
+    let error;
 
-    // If login fails due to invalid credentials, try signing up
-    if (error && error.message === "Invalid login credentials") {
-      console.log("User not found, signing up new user...");
-      const signUpResult = await signUpUser(email, password);
+    if (isSignUp) {
+      // If in sign-up mode, sign up the user with email, password, and username
+      const signUpResult = await signUpUser(email, password, username);
       user = signUpResult.user;
       error = signUpResult.error;
+    } else {
+      // Otherwise, handle login
+      const loginResult = await loginUser(email, password);
+      user = loginResult.user;
+      error = loginResult.error;
     }
 
     if (error) {
@@ -51,7 +57,27 @@ const LoginButton = ({ setUser, setProfile }) => {
         secureTextEntry
         className="w-full border border-gray-300 rounded p-2 mb-4"
       />
-      <Button title="Login" onPress={handleLogin} />
+
+      {isSignUp && (
+        <TextInput
+          placeholder="Username"
+          value={username}
+          onChangeText={setUsername}
+          className="w-full border border-gray-300 rounded p-2 mb-4"
+        />
+      )}
+
+      <Button
+        title={isSignUp ? "Create Account" : "Login"}
+        onPress={handleLogin}
+      />
+
+      {/* Toggle between Login and Sign Up modes */}
+      <Button
+        title={isSignUp ? "Already have an account? Login" : "Create Account"}
+        onPress={() => setIsSignUp(!isSignUp)}
+      />
+
       {error && <Text className="text-red-500 mt-2">{error}</Text>}
     </View>
   );

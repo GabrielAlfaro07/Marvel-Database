@@ -6,6 +6,7 @@ import { loadFonts } from "../../../services/fontService";
 import PreviousButton from "../../buttons/PreviousButton";
 import NextButton from "../../buttons/NextButton";
 import SidebarButton from "../../buttons/SidebarButton";
+import ProfileButton from "../../buttons/ProfileButton";
 
 const CreatorsListScreen = ({ navigation, toggleSidebar }) => {
   const [creators, setCreators] = useState([]);
@@ -46,6 +47,7 @@ const CreatorsListScreen = ({ navigation, toggleSidebar }) => {
   return (
     <ScrollView className="bg-gray-100">
       <SidebarButton toggleSidebar={toggleSidebar} />
+      <ProfileButton />
       <View className="flex-1 justify-center items-center p-8">
         <Text
           className="text-center text-2xl text-gray-800 mb-6"

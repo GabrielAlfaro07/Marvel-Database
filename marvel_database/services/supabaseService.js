@@ -6,10 +6,13 @@ export const checkUser = async () => {
   return data?.user; // Returns the user if authenticated
 };
 
-// Function to create a user profile for first-time users
-const createUserProfile = async (userId, email) => {
+// Modify createUserProfile to accept username
+const createUserProfile = async (userId, email, username) => {
+  const defaultAvatarUrl =
+    "https://static-00.iconduck.com/assets.00/avatar-default-icon-2048x2048-h6w375ur.png"; // Default avatar URL
+
   const { error } = await supabase.from("profiles").insert([
-    { id: userId, email, username: "New User" }, // You can add default values here
+    { id: userId, email, username, avatar_url: defaultAvatarUrl }, // Use the default avatar if no custom one is provided
   ]);
 
   if (error) {
@@ -19,8 +22,8 @@ const createUserProfile = async (userId, email) => {
   return { error };
 };
 
-// Function to sign up a new user (via email/password)
-export const signUpUser = async (email, password) => {
+// Function to sign up a new user (via email/password and username)
+export const signUpUser = async (email, password, username) => {
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
@@ -31,10 +34,11 @@ export const signUpUser = async (email, password) => {
   if (error) {
     console.error("Error signing up:", error.message);
   } else if (user) {
-    // Create a profile for new users
+    // Create a profile for new users with the provided username
     const { error: profileCreationError } = await createUserProfile(
       user.id,
-      email
+      email,
+      username // Pass the username to the profile creation
     );
     if (profileCreationError) {
       console.error(
@@ -109,4 +113,13 @@ export const fetchUserProfile = async (userId) => {
   }
 
   return { data, error };
+};
+
+// Function to fetch the current logged-in user's ID
+export const fetchUserId = async () => {
+  const { data, error } = await supabase.auth.getUser();
+  if (error) {
+    console.error("Error fetching user ID:", error.message);
+  }
+  return data?.user?.id || null; // Return the user ID if authenticated, otherwise null
 };

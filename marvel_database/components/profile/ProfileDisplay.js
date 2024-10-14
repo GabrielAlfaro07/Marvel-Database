@@ -4,7 +4,7 @@ import LogoutButton from "../buttons/LogoutButton";
 
 const ProfileDisplay = ({ user, profile, setUser, setProfile }) => {
   return (
-    <View className="flex items-center bg-gray-50 rounded-lg p-4 shadow-md w-64">
+    <View className="flex items-center bg-gray-50 rounded-3xl pt-4 px-4 shadow-md w-64">
       {profile?.avatar_url ? (
         <Image
           source={{ uri: profile.avatar_url }}

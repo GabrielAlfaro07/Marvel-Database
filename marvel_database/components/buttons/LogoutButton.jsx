@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "react-native";
+import { View, Button } from "react-native";
 import { logoutUser } from "../../services/supabaseService";
 
 const LogoutButton = ({ setUser, setProfile }) => {

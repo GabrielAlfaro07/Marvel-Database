@@ -42,7 +42,7 @@ const ProfileButton = () => {
         <FontAwesomeIcon icon={faUser} size={24} />
       </TouchableOpacity>
       {showProfile && (
-        <View className="absolute top-12 right-0 bg-white rounded-lg w-64">
+        <View className="absolute top-12 right-0 bg-white rounded-3xl w-64">
           {user ? (
             <ProfileDisplay
               user={user}

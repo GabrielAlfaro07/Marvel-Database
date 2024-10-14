@@ -13,6 +13,7 @@ import CreatorCard from "../../cards/CreatorCard";
 import EventCard from "../../cards/EventCard";
 import SeriesCard from "../../cards/SeriesCard";
 import Carousel from "../../carousel/Carousel";
+import FavoriteButton from "../../buttons/FavoriteButton";
 
 const StoryDetailsScreen = ({ route }) => {
   const { story } = route.params;
@@ -59,7 +60,7 @@ const StoryDetailsScreen = ({ route }) => {
         <Skeleton />
       ) : (
         <>
-          <View className="items-center mb-5">
+          <View className="relative items-center mb-5">
             <Image
               source={{
                 uri:
@@ -72,6 +73,9 @@ const StoryDetailsScreen = ({ route }) => {
               className="w-full aspect-square rounded-xl"
               resizeMode="cover"
             />
+            <View className="absolute top-4 right-4 z-10">
+              <FavoriteButton itemId={story.id} itemType="story" />
+            </View>
           </View>
 
           <Text

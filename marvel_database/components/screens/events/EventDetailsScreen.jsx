@@ -13,6 +13,7 @@ import CreatorCard from "../../cards/CreatorCard";
 import SeriesCard from "../../cards/SeriesCard";
 import StoryCard from "../../cards/StoryCard";
 import Carousel from "../../carousel/Carousel";
+import FavoriteButton from "../../buttons/FavoriteButton";
 
 const EventDetailsScreen = ({ route }) => {
   const { event } = route.params;
@@ -64,7 +65,7 @@ const EventDetailsScreen = ({ route }) => {
         <Skeleton />
       ) : (
         <>
-          <View className="items-center mb-5">
+          <View className="relative items-center mb-5">
             <Image
               source={{
                 uri: `${event.thumbnail.path}.${event.thumbnail.extension}`,
@@ -72,6 +73,9 @@ const EventDetailsScreen = ({ route }) => {
               className="w-full aspect-square rounded-xl"
               resizeMode="cover"
             />
+            <View className="absolute top-4 right-4 z-10">
+              <FavoriteButton itemId={event.id} itemType="event" />
+            </View>
           </View>
 
           <Text

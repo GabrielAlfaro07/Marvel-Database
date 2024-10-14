@@ -11,6 +11,7 @@ import EventCard from "../../cards/EventCard";
 import SeriesCard from "../../cards/SeriesCard";
 import StoryCard from "../../cards/StoryCard";
 import Carousel from "../../carousel/Carousel"; // Import the Carousel component
+import FavoriteButton from "../../buttons/FavoriteButton";
 
 const CreatorDetailsScreen = ({ route }) => {
   const { creator } = route.params;
@@ -54,7 +55,7 @@ const CreatorDetailsScreen = ({ route }) => {
         <Skeleton />
       ) : (
         <>
-          <View className="items-center mb-5">
+          <View className="relative items-center mb-5">
             <Image
               source={{
                 uri: `${creator.thumbnail.path}.${creator.thumbnail.extension}`,
@@ -62,6 +63,9 @@ const CreatorDetailsScreen = ({ route }) => {
               className="w-full aspect-square rounded-xl"
               resizeMode="cover"
             />
+            <View className="absolute top-4 right-4 z-10">
+              <FavoriteButton itemId={creator.id} itemType="creator" />
+            </View>
           </View>
 
           <Text

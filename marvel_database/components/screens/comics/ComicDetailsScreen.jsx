@@ -11,6 +11,7 @@ import CreatorCard from "../../cards/CreatorCard";
 import EventCard from "../../cards/EventCard";
 import StoryCard from "../../cards/StoryCard";
 import Carousel from "../../carousel/Carousel"; // Import the Carousel component
+import FavoriteButton from "../../buttons/FavoriteButton";
 
 const ComicDetailsScreen = ({ route }) => {
   const { comic } = route.params;
@@ -54,7 +55,7 @@ const ComicDetailsScreen = ({ route }) => {
         <Skeleton />
       ) : (
         <>
-          <View className="items-center mb-5">
+          <View className="relative items-center mb-5">
             <Image
               source={{
                 uri: `${comic.thumbnail.path}.${comic.thumbnail.extension}`,
@@ -62,6 +63,9 @@ const ComicDetailsScreen = ({ route }) => {
               className="w-full aspect-square rounded-xl"
               resizeMode="cover"
             />
+            <View className="absolute top-4 right-4 z-10">
+              <FavoriteButton itemId={comic.id} itemType="comic" />
+            </View>
           </View>
 
           <Text

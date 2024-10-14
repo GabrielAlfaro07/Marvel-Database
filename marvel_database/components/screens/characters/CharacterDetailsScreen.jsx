@@ -11,6 +11,7 @@ import EventCard from "../../cards/EventCard";
 import SeriesCard from "../../cards/SeriesCard";
 import StoryCard from "../../cards/StoryCard";
 import Carousel from "../../carousel/Carousel"; // Import the Carousel component
+import FavoriteButton from "../../buttons/FavoriteButton"; // Import the FavoriteButton
 
 const CharacterDetailsScreen = ({ route }) => {
   const { character } = route.params;
@@ -54,7 +55,7 @@ const CharacterDetailsScreen = ({ route }) => {
         <Skeleton />
       ) : (
         <>
-          <View className="items-center mb-5">
+          <View className="relative items-center mb-5">
             <Image
               source={{
                 uri: `${character.thumbnail.path}.${character.thumbnail.extension}`,
@@ -62,6 +63,9 @@ const CharacterDetailsScreen = ({ route }) => {
               className="w-full aspect-square rounded-xl"
               resizeMode="cover"
             />
+            <View className="absolute top-4 right-4 z-10">
+              <FavoriteButton itemId={character.id} itemType="character" />
+            </View>
           </View>
 
           <Text
