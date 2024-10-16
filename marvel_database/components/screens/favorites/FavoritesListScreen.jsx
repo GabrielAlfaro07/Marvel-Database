@@ -1,22 +1,18 @@
 import React, { useEffect, useState } from "react";
-import {
-  ScrollView,
-  View,
-  Text,
-  ActivityIndicator,
-  Button,
-} from "react-native";
-import { fetchAllFavorites } from "../../../services/favoritesService"; // Import your service
-import Carousel from "../../carousel/Carousel"; // Use existing Carousel component
-import ComicCard from "../../cards/ComicCard"; // Example of how you can reuse existing cards
-import SeriesCard from "../../cards/SeriesCard";
-import { fetchUserId } from "../../../services/supabaseService"; // Import function to get current user
+import { ScrollView, View, Text, ActivityIndicator } from "react-native";
+import { fetchFavoritesData } from "../../../services/favoritesService";
+import Carousel from "../../carousel/Carousel";
 import CharacterCard from "../../cards/CharacterCard";
-import CreatorCard from "../../cards/CreatorCard";
+import ComicCard from "../../cards/ComicCard";
+import SeriesCard from "../../cards/SeriesCard";
 import EventCard from "../../cards/EventCard";
 import StoryCard from "../../cards/StoryCard";
+import CreatorCard from "../../cards/CreatorCard";
+import { fetchUserId, checkUser } from "../../../services/supabaseService"; // Import the new service function
+import SidebarButton from "../../buttons/SidebarButton";
+import ProfileButton from "../../buttons/ProfileButton";
 
-const FavoritesScreen = ({ navigation }) => {
+const FavoritesScreen = ({ navigation, toggleSidebar }) => {
   const [favorites, setFavorites] = useState(null);
   const [loading, setLoading] = useState(true);
   const [userId, setUserId] = useState(null);
@@ -24,13 +20,19 @@ const FavoritesScreen = ({ navigation }) => {
   useEffect(() => {
     const loadFavorites = async () => {
       setLoading(true);
-      const id = await fetchUserId();
-      setUserId(id);
 
-      if (id) {
-        const userFavorites = await fetchAllFavorites(id);
-        setFavorites(userFavorites);
+      // Check if a user is logged in
+      const user = await checkUser();
+      if (user) {
+        setUserId(user.id); // Set the logged-in user ID
+
+        // Fetch the user's favorites
+        const favoritesData = await fetchFavoritesData(user.id);
+        setFavorites(favoritesData);
+      } else {
+        setUserId(null); // If no user is logged in, reset the userId
       }
+
       setLoading(false);
     };
 
@@ -46,8 +48,13 @@ const FavoritesScreen = ({ navigation }) => {
 
   const renderCarousel = (title, data, CardComponent, type) => {
     return data?.length ? (
-      <View key={title} className="mb-5">
-        <Text className="text-xl text-gray-800 mb-2">{title}</Text>
+      <View key={title} className="px-4">
+        <Text
+          className="text-2xl text-gray-800"
+          style={{ fontFamily: "MarvelRegular" }}
+        >
+          {title}
+        </Text>
         <Carousel data={data} CardComponent={CardComponent} type={type} />
       </View>
     ) : null;
@@ -57,10 +64,7 @@ const FavoritesScreen = ({ navigation }) => {
   if (!userId && !loading) {
     return (
       <View className="flex-1 justify-center items-center p-8">
-        <Text
-          className="text-center text-2xl text-gray-800 mb-6"
-          style={{ fontFamily: "MarvelRegular" }}
-        >
+        <Text className="text-center text-2xl text-gray-800 mb-6">
           Please log in to see your favorites!
         </Text>
       </View>
@@ -70,7 +74,9 @@ const FavoritesScreen = ({ navigation }) => {
   if (loading || !favorites) return <Skeleton />;
 
   return (
-    <ScrollView className="flex-1 bg-gray-100 p-4">
+    <ScrollView className="flex-1 bg-gray-100">
+      <SidebarButton toggleSidebar={toggleSidebar} />
+      <ProfileButton />
       <View className="flex-1 justify-center items-center p-8">
         <Text
           className="text-center text-2xl text-gray-800 mb-6"
@@ -87,26 +93,16 @@ const FavoritesScreen = ({ navigation }) => {
         </Text>
       </View>
       {renderCarousel(
-        "Favorite Characters",
+        "Characters",
         favorites.character,
         CharacterCard,
         "character"
       )}
-      {renderCarousel("Favorite Comics", favorites.comic, ComicCard, "comic")}
-      {renderCarousel(
-        "Favorite Creators",
-        favorites.creator,
-        CreatorCard,
-        "creator"
-      )}
-      {renderCarousel("Favorite Events", favorites.event, EventCard, "event")}
-      {renderCarousel(
-        "Favorite Series",
-        favorites.series,
-        SeriesCard,
-        "series"
-      )}
-      {renderCarousel("Favorite Stories", favorites.story, StoryCard, "story")}
+      {renderCarousel("Comics", favorites.comic, ComicCard, "comic")}
+      {renderCarousel("Series", favorites.series, SeriesCard, "series")}
+      {renderCarousel("Events", favorites.event, EventCard, "event")}
+      {renderCarousel("Stories", favorites.story, StoryCard, "story")}
+      {renderCarousel("Creators", favorites.creator, CreatorCard, "creator")}
     </ScrollView>
   );
 };

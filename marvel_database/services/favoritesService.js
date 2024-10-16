@@ -1,4 +1,10 @@
 import { supabase } from "../supabaseClient";
+import { fetchCharacterById } from "./charactersService";
+import { fetchComicById } from "./comicsService";
+import { fetchEventById } from "./eventsService";
+import { fetchSeriesById } from "./seriesService";
+import { fetchStoryById } from "./storiesService";
+import { fetchCreatorById } from "./creatorsService";
 
 // Function to check if an item is favorited
 export const checkFavoriteStatus = async (userId, itemId, itemType) => {
@@ -78,6 +84,42 @@ export const fetchAllFavorites = async (userId) => {
   // Format result into an object with each type as a key
   return result.reduce((acc, { type, ids }) => {
     acc[type] = ids;
+    return acc;
+  }, {});
+};
+
+export const fetchFavoritesData = async (userId) => {
+  const types = ["character", "series", "creator", "event", "comic", "story"];
+
+  const promises = types.map(async (type) => {
+    const ids = await fetchFavoritesByType(userId, type);
+    const dataPromises = ids.map((id) => {
+      switch (type) {
+        case "character":
+          return fetchCharacterById(id);
+        case "comic":
+          return fetchComicById(id);
+        case "event":
+          return fetchEventById(id);
+        case "series":
+          return fetchSeriesById(id);
+        case "story":
+          return fetchStoryById(id);
+        case "creator":
+          return fetchCreatorById(id);
+        default:
+          return null;
+      }
+    });
+    const data = await Promise.all(dataPromises);
+    return { type, data };
+  });
+
+  const result = await Promise.all(promises);
+
+  // Format result into an object with each type as a key
+  return result.reduce((acc, { type, data }) => {
+    acc[type] = data;
     return acc;
   }, {});
 };
