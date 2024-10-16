@@ -125,6 +125,19 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
               Stories
             </Text>
           </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("Favorites");
+              toggleSidebar();
+            }}
+          >
+            <Text
+              className="text-white text-2xl mb-4"
+              style={{ fontFamily: "MarvelRegular" }} // Marvel font
+            >
+              Favorites
+            </Text>
+          </TouchableOpacity>
         </View>
       </View>
     </Animated.View>

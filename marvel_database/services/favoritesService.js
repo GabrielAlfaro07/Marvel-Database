@@ -48,3 +48,36 @@ export const toggleFavoriteStatus = async (userId, itemId, itemType) => {
     }
   }
 };
+
+// Function to fetch all favorites of a certain type (e.g., characters, series)
+export const fetchFavoritesByType = async (userId, itemType) => {
+  const { data, error } = await supabase
+    .from("favorites")
+    .select("item_id")
+    .eq("user_id", userId)
+    .eq("item_type", itemType);
+
+  if (error) {
+    console.error(`Error fetching favorites for ${itemType}:`, error.message);
+  }
+
+  return data ? data.map((item) => item.item_id) : [];
+};
+
+// Fetch all favorite items (characters, series, events, etc.)
+export const fetchAllFavorites = async (userId) => {
+  const types = ["character", "series", "creator", "event", "comic", "story"];
+
+  const promises = types.map(async (type) => {
+    const ids = await fetchFavoritesByType(userId, type);
+    return { type, ids };
+  });
+
+  const result = await Promise.all(promises);
+
+  // Format result into an object with each type as a key
+  return result.reduce((acc, { type, ids }) => {
+    acc[type] = ids;
+    return acc;
+  }, {});
+};

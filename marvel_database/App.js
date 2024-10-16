@@ -18,6 +18,7 @@ import StoriesListScreen from "./components/screens/stories/StoriesListScreen";
 import StoryDetailsScreen from "./components/screens/stories/StoryDetailsScreen";
 import Sidebar from "./components/sidebars/Sidebar";
 import HomeScreen from "./components/screens/home/HomeScreen";
+import FavoritesScreen from "./components/screens/favorites/FavoritesListScreen";
 
 const Stack = createStackNavigator();
 
@@ -84,6 +85,9 @@ export default function App() {
           {() => <StoriesListScreen toggleSidebar={toggleSidebar} />}
         </Stack.Screen>
         <Stack.Screen name="Story Details" component={StoryDetailsScreen} />
+        <Stack.Screen name="Favorites">
+          {() => <FavoritesScreen toggleSidebar={toggleSidebar} />}
+        </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   );
