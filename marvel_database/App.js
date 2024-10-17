@@ -1,63 +1,94 @@
-import React, { useEffect, useState } from "react";
-import { ScrollView, View, ActivityIndicator, Button } from "react-native";
-import CharacterCard from "./components/CharacterCard";
-import { fetchCharacters } from "./services/characterService";
-import { loadFonts } from "./services/fontService";
-import Header from "./components/Header"; // Import the header component
+import React, { useState, useEffect } from "react";
+import "react-native-gesture-handler";
+import * as SplashScreen from "expo-splash-screen";
+import { loadFonts } from "./services/fontService"; // Adjust the path accordingly
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import CharactersListScreen from "./components/screens/characters/CharactersListScreen";
+import CharacterDetailsScreen from "./components/screens/characters/CharacterDetailsScreen";
+import ComicsListScreen from "./components/screens/comics/ComicsListScreen";
+import ComicDetailsScreen from "./components/screens/comics/ComicDetailsScreen";
+import CreatorsListScreen from "./components/screens/creators/CreatorsListScreen";
+import CreatorDetailsScreen from "./components/screens/creators/CreatorDetailsScreen";
+import EventsListScreen from "./components/screens/events/EventsListScreen";
+import EventDetailsScreen from "./components/screens/events/EventDetailsScreen";
+import SeriesListScreen from "./components/screens/series/SeriesListScreen";
+import SeriesDetailsScreen from "./components/screens/series/SeriesDetailsScreen";
+import StoriesListScreen from "./components/screens/stories/StoriesListScreen";
+import StoryDetailsScreen from "./components/screens/stories/StoryDetailsScreen";
+import Sidebar from "./components/sidebars/Sidebar";
+import HomeScreen from "./components/screens/home/HomeScreen";
+import FavoritesScreen from "./components/screens/favorites/FavoritesListScreen";
+
+const Stack = createStackNavigator();
 
 export default function App() {
-  const [characters, setCharacters] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [fontsLoaded, setFontsLoaded] = useState(false);
-  const [offset, setOffset] = useState(0);
-  const limit = 20;
-
-  const getCharacters = async (offset, limit) => {
-    setLoading(true);
-    const data = await fetchCharacters(offset, limit);
-    setCharacters(data);
-    setLoading(false);
-  };
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
-    const fetchData = async () => {
-      await loadFonts();
-      setFontsLoaded(true);
+    const loadResources = async () => {
+      try {
+        await SplashScreen.preventAutoHideAsync();
+        await loadFonts();
+        setFontsLoaded(true);
+      } catch (error) {
+        console.warn("Error loading fonts", error);
+      } finally {
+        await SplashScreen.hideAsync();
+      }
     };
-    fetchData();
+
+    loadResources();
   }, []);
 
-  useEffect(() => {
-    if (fontsLoaded) {
-      getCharacters(offset, limit);
-    }
-  }, [fontsLoaded, offset]);
-
-  if (!fontsLoaded || loading) {
-    return (
-      <View className="flex-1 justify-center items-center bg-gray-300">
-        <ActivityIndicator size="large" color="#0000ff" />
-      </View>
-    );
+  if (!fontsLoaded) {
+    return null;
   }
 
+  const toggleSidebar = () => {
+    console.log("Toggling Sidebar:", !isSidebarOpen); // Add this to check state
+    setSidebarOpen((prev) => !prev);
+  };
+
   return (
-    <>
-      <ScrollView className="bg-gray-300">
-        {/* Include the header component */}
-        <Header />
-        <View className="flex flex-wrap flex-row justify-around">
-          {characters.map((character) => (
-            <CharacterCard
-              key={character.id}
-              character={{ ...character, name: character.name.toUpperCase() }} // Transform name to uppercase
-            />
-          ))}
-        </View>
-        <View className="flex justify-center items-center mt-4">
-          <Button title="Load More" onPress={() => setOffset(offset + limit)} />
-        </View>
-      </ScrollView>
-    </>
+    <NavigationContainer>
+      <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+      <Stack.Navigator initialRouteName="Home">
+        <Stack.Screen name="Home">
+          {() => <HomeScreen toggleSidebar={toggleSidebar} />}
+        </Stack.Screen>
+        <Stack.Screen name="Characters">
+          {() => <CharactersListScreen toggleSidebar={toggleSidebar} />}
+        </Stack.Screen>
+        <Stack.Screen
+          name="Character Details"
+          component={CharacterDetailsScreen}
+        />
+        <Stack.Screen name="Comics">
+          {() => <ComicsListScreen toggleSidebar={toggleSidebar} />}
+        </Stack.Screen>
+        <Stack.Screen name="Comic Details" component={ComicDetailsScreen} />
+        <Stack.Screen name="Creators">
+          {() => <CreatorsListScreen toggleSidebar={toggleSidebar} />}
+        </Stack.Screen>
+        <Stack.Screen name="Creator Details" component={CreatorDetailsScreen} />
+        <Stack.Screen name="Events">
+          {() => <EventsListScreen toggleSidebar={toggleSidebar} />}
+        </Stack.Screen>
+        <Stack.Screen name="Event Details" component={EventDetailsScreen} />
+        <Stack.Screen name="Series">
+          {() => <SeriesListScreen toggleSidebar={toggleSidebar} />}
+        </Stack.Screen>
+        <Stack.Screen name="Series Details" component={SeriesDetailsScreen} />
+        <Stack.Screen name="Stories">
+          {() => <StoriesListScreen toggleSidebar={toggleSidebar} />}
+        </Stack.Screen>
+        <Stack.Screen name="Story Details" component={StoryDetailsScreen} />
+        <Stack.Screen name="Favorites">
+          {() => <FavoritesScreen toggleSidebar={toggleSidebar} />}
+        </Stack.Screen>
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
