@@ -6,12 +6,14 @@ import { loadFonts } from "../../../services/fontService";
 import PreviousButton from "../../buttons/PreviousButton";
 import NextButton from "../../buttons/NextButton";
 import SidebarButton from "../../buttons/SidebarButton";
+import SearchBar from "../../searchbars/Searchbar"; // Verifica que esta ruta sea la correcta
 
 const ComicsListScreen = ({ navigation, toggleSidebar }) => {
   const [comics, setComics] = useState([]);
   const [loading, setLoading] = useState(true);
   const [fontsLoaded, setFontsLoaded] = useState(false);
   const [offset, setOffset] = useState(0);
+  const [searchQuery, setSearchQuery] = useState(""); // Estado para la barra de búsqueda
   const limit = 30;
 
   const getComics = async (offset, limit) => {
@@ -43,6 +45,11 @@ const ComicsListScreen = ({ navigation, toggleSidebar }) => {
     );
   }
 
+  // Filtramos los cómics según el título que coincida con la búsqueda
+  const filteredComics = comics.filter((comic) =>
+    comic.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <ScrollView className="bg-gray-100">
       <SidebarButton toggleSidebar={toggleSidebar} />
@@ -61,12 +68,17 @@ const ComicsListScreen = ({ navigation, toggleSidebar }) => {
           everything takes place!
         </Text>
       </View>
+
+      {/* Barra de búsqueda */}
+      <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+
       <View className="flex justify-center items-center flex-row">
         <PreviousButton offset={offset} setOffset={setOffset} limit={limit} />
         <NextButton offset={offset} setOffset={setOffset} limit={limit} />
       </View>
       <View className="flex flex-wrap flex-row justify-around mt-4">
-        {comics.map((comic) => (
+        {/* Mostramos los cómics filtrados */}
+        {filteredComics.map((comic) => (
           <ComicCard
             key={comic.id}
             comic={{ ...comic, title: comic.title.toUpperCase() }}
@@ -79,3 +91,4 @@ const ComicsListScreen = ({ navigation, toggleSidebar }) => {
 };
 
 export default ComicsListScreen;
+
