@@ -6,6 +6,7 @@ import { loadFonts } from "../../../services/fontService";
 import PreviousButton from "../../buttons/PreviousButton";
 import NextButton from "../../buttons/NextButton";
 import SidebarButton from "../../buttons/SidebarButton";
+import SearchBar from "../../searchbars/Searchbar"; // Verifica que esta ruta sea la correcta
 import ProfileButton from "../../buttons/ProfileButton";
 
 const EventsListScreen = ({ navigation, toggleSidebar }) => {
@@ -13,6 +14,7 @@ const EventsListScreen = ({ navigation, toggleSidebar }) => {
   const [loading, setLoading] = useState(true);
   const [fontsLoaded, setFontsLoaded] = useState(false);
   const [offset, setOffset] = useState(0);
+  const [searchQuery, setSearchQuery] = useState(""); // Estado para la barra de búsqueda
   const limit = 20;
 
   const getEvents = async (offset, limit) => {
@@ -44,6 +46,11 @@ const EventsListScreen = ({ navigation, toggleSidebar }) => {
     );
   }
 
+  // Filtramos los eventos según el título que coincida con la búsqueda
+  const filteredEvents = events.filter((event) =>
+    event.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <ScrollView className="bg-gray-100">
       <SidebarButton toggleSidebar={toggleSidebar} />
@@ -59,17 +66,21 @@ const EventsListScreen = ({ navigation, toggleSidebar }) => {
           className="text-center text-lg text-gray-600"
           style={{ fontFamily: "MarvelRegular" }}
         >
-          The Marvel Events are the cornerstone of the plot that directs the
-          adventures of our favorite characters!
+          Discover the great events that happen in the Marvel Universe!
         </Text>
       </View>
+
+      {/* Barra de búsqueda */}
+      <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+
       <View className="flex justify-center items-center flex-row">
         <PreviousButton offset={offset} setOffset={setOffset} limit={limit} />
         <NextButton offset={offset} setOffset={setOffset} limit={limit} />
       </View>
 
       <View className="flex flex-wrap flex-row justify-around mt-4">
-        {events.map((event) => (
+        {/* Mostramos los eventos filtrados */}
+        {filteredEvents.map((event) => (
           <EventCard
             key={event.id}
             event={{ ...event, title: event.title.toUpperCase() }}
