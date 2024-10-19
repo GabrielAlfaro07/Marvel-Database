@@ -6,6 +6,8 @@ import { loadFonts } from "../../../services/fontService";
 import PreviousButton from "../../buttons/PreviousButton";
 import NextButton from "../../buttons/NextButton";
 import SidebarButton from "../../buttons/SidebarButton";
+import SearchBar from "../../searchbars/Searchbar"; // Verifica que esta ruta sea la correcta
+
 import ProfileButton from "../../buttons/ProfileButton";
 
 const StoriesListScreen = ({ navigation, toggleSidebar }) => {
@@ -13,6 +15,7 @@ const StoriesListScreen = ({ navigation, toggleSidebar }) => {
   const [loading, setLoading] = useState(true);
   const [fontsLoaded, setFontsLoaded] = useState(false);
   const [offset, setOffset] = useState(0);
+  const [searchQuery, setSearchQuery] = useState(""); // Estado para la barra de búsqueda
   const limit = 20;
 
   const getStories = async (offset, limit) => {
@@ -44,6 +47,11 @@ const StoriesListScreen = ({ navigation, toggleSidebar }) => {
     );
   }
 
+  // Filtramos las historias según el título que coincida con la búsqueda
+  const filteredStories = stories.filter((story) =>
+    story.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <ScrollView className="bg-gray-100">
       <SidebarButton toggleSidebar={toggleSidebar} />
@@ -63,13 +71,18 @@ const StoriesListScreen = ({ navigation, toggleSidebar }) => {
           Universe!
         </Text>
       </View>
+
+      {/* Barra de búsqueda */}
+      <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+
       <View className="flex justify-center items-center flex-row">
         <PreviousButton offset={offset} setOffset={setOffset} limit={limit} />
         <NextButton offset={offset} setOffset={setOffset} limit={limit} />
       </View>
 
       <View className="flex flex-wrap flex-row justify-around mt-4">
-        {stories.map((story) => (
+        {/* Mostramos las historias filtradas */}
+        {filteredStories.map((story) => (
           <StoryCard
             key={story.id}
             story={{ ...story, title: story.title.toUpperCase() }}
