@@ -6,6 +6,7 @@ import { loadFonts } from "../../../services/fontService";
 import PreviousButton from "../../buttons/PreviousButton";
 import NextButton from "../../buttons/NextButton";
 import SidebarButton from "../../buttons/SidebarButton";
+import SearchBar from "../../searchbars/Searchbar"; // Verifica que esta ruta sea la correcta
 import ProfileButton from "../../buttons/ProfileButton";
 
 const SeriesListScreen = ({ navigation, toggleSidebar }) => {
@@ -13,6 +14,7 @@ const SeriesListScreen = ({ navigation, toggleSidebar }) => {
   const [loading, setLoading] = useState(true);
   const [fontsLoaded, setFontsLoaded] = useState(false);
   const [offset, setOffset] = useState(0);
+  const [searchQuery, setSearchQuery] = useState(""); // Estado para la barra de búsqueda
   const limit = 20;
 
   const getSeries = async (offset, limit) => {
@@ -44,6 +46,11 @@ const SeriesListScreen = ({ navigation, toggleSidebar }) => {
     );
   }
 
+  // Filtramos las series según el título que coincida con la búsqueda
+  const filteredSeries = series.filter((serie) =>
+    serie.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <ScrollView className="bg-gray-100">
       <SidebarButton toggleSidebar={toggleSidebar} />
@@ -59,19 +66,24 @@ const SeriesListScreen = ({ navigation, toggleSidebar }) => {
           className="text-center text-lg text-gray-600"
           style={{ fontFamily: "MarvelRegular" }}
         >
-          The Marvel Series are small collections of events and stories that
-          happen inside the Marvel Universe!
+          Explore the exciting series set in the Marvel Universe!
         </Text>
       </View>
+
+      {/* Barra de búsqueda */}
+      <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+
       <View className="flex justify-center items-center flex-row">
         <PreviousButton offset={offset} setOffset={setOffset} limit={limit} />
         <NextButton offset={offset} setOffset={setOffset} limit={limit} />
       </View>
+
       <View className="flex flex-wrap flex-row justify-around mt-4">
-        {series.map((serie) => (
+        {/* Mostramos las series filtradas */}
+        {filteredSeries.map((serie) => (
           <SeriesCard
             key={serie.id}
-            series={{ ...serie, title: serie.title.toUpperCase() }}
+            serie={{ ...serie, title: serie.title.toUpperCase() }}
             loading={!serie.title}
           />
         ))}
