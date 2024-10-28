@@ -16,8 +16,12 @@ const CreatorCard = ({ creator, loading }) => {
       }
     >
       <View
-        className="m-2 rounded-lg overflow-hidden bg-gray-800"
-        style={{ width: cardWidth, height: cardHeight }}
+        className="m-2 rounded-lg overflow-hidden"
+        style={{
+          backgroundColor: "#ec1d24",
+          width: cardWidth,
+          height: cardHeight,
+        }}
       >
         {loading ? (
           <View className="flex-1 justify-center items-center bg-gray-500">

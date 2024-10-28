@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { ScrollView, View, Text, ActivityIndicator } from "react-native";
+import {
+  ScrollView,
+  View,
+  Text,
+  ActivityIndicator,
+  ImageBackground,
+} from "react-native";
 import { fetchFavoritesData } from "../../../services/favoritesService";
 import Carousel from "../../carousel/Carousel";
 import CharacterCard from "../../cards/CharacterCard";
@@ -11,6 +17,10 @@ import CreatorCard from "../../cards/CreatorCard";
 import { fetchUserId, checkUser } from "../../../services/supabaseService"; // Import the new service function
 import SidebarButton from "../../buttons/SidebarButton";
 import ProfileButton from "../../buttons/ProfileButton";
+
+// URL of the background image
+const backgroundImage =
+  "https://images.rawpixel.com/image_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTEyL3Jhd3BpeGVsX29mZmljZV8zN19waG90b19vZl9nYWxheHlfd2FsbHBhcGVyX2Flc3RoZXRpY19taW5pbWFsX2Y1NWFjNGU1LTkxOWQtNGEwZS1hNzA2LTlhMGExMTI1YzAxZS5qcGc.jpg";
 
 const FavoritesScreen = ({ navigation, toggleSidebar }) => {
   const [favorites, setFavorites] = useState(null);
@@ -50,7 +60,7 @@ const FavoritesScreen = ({ navigation, toggleSidebar }) => {
     return data?.length ? (
       <View key={title} className="px-4">
         <Text
-          className="text-2xl text-gray-800"
+          className="text-2xl text-white"
           style={{ fontFamily: "MarvelRegular" }}
         >
           {title}
@@ -74,36 +84,42 @@ const FavoritesScreen = ({ navigation, toggleSidebar }) => {
   if (loading || !favorites) return <Skeleton />;
 
   return (
-    <ScrollView className="flex-1 bg-gray-100">
-      <SidebarButton toggleSidebar={toggleSidebar} />
-      <ProfileButton />
-      <View className="flex-1 justify-center items-center p-8">
-        <Text
-          className="text-center text-2xl text-gray-800 mb-6"
-          style={{ fontFamily: "MarvelRegular" }}
-        >
-          Your Favorites
-        </Text>
-        <Text
-          className="text-center text-lg text-gray-600"
-          style={{ fontFamily: "MarvelRegular" }}
-        >
-          This is the place where you can find your favorite characters, comics,
-          creators, events, series, and stories!
-        </Text>
-      </View>
-      {renderCarousel(
-        "Characters",
-        favorites.character,
-        CharacterCard,
-        "character"
-      )}
-      {renderCarousel("Comics", favorites.comic, ComicCard, "comic")}
-      {renderCarousel("Series", favorites.series, SeriesCard, "series")}
-      {renderCarousel("Events", favorites.event, EventCard, "event")}
-      {renderCarousel("Stories", favorites.story, StoryCard, "story")}
-      {renderCarousel("Creators", favorites.creator, CreatorCard, "creator")}
-    </ScrollView>
+    <ImageBackground
+      source={{ uri: backgroundImage }}
+      style={{ flex: 1 }}
+      resizeMode="cover" // or "contain", depending on how you want it to fit
+    >
+      <ScrollView className="flex-1">
+        <SidebarButton toggleSidebar={toggleSidebar} />
+        <ProfileButton />
+        <View className="flex-1 justify-center items-center p-8">
+          <Text
+            className="text-center text-2xl text-white mb-6"
+            style={{ fontFamily: "MarvelRegular" }}
+          >
+            Your Favorites
+          </Text>
+          <Text
+            className="text-center text-lg text-gray-200"
+            style={{ fontFamily: "MarvelRegular" }}
+          >
+            This is the place where you can find your favorite characters,
+            comics, creators, events, series, and stories!
+          </Text>
+        </View>
+        {renderCarousel(
+          "Characters",
+          favorites.character,
+          CharacterCard,
+          "character"
+        )}
+        {renderCarousel("Comics", favorites.comic, ComicCard, "comic")}
+        {renderCarousel("Series", favorites.series, SeriesCard, "series")}
+        {renderCarousel("Events", favorites.event, EventCard, "event")}
+        {renderCarousel("Stories", favorites.story, StoryCard, "story")}
+        {renderCarousel("Creators", favorites.creator, CreatorCard, "creator")}
+      </ScrollView>
+    </ImageBackground>
   );
 };
 

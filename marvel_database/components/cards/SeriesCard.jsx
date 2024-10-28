@@ -16,8 +16,12 @@ const SeriesCard = ({ series, loading }) => {
       }
     >
       <View
-        className="m-2 rounded-lg overflow-hidden bg-gray-800"
-        style={{ width: cardWidth, height: cardHeight }}
+        className="m-2 rounded-lg overflow-hidden"
+        style={{
+          backgroundColor: "#ec1d24",
+          width: cardWidth,
+          height: cardHeight,
+        }}
       >
         {loading ? (
           <View className="flex-1 justify-center items-center bg-gray-500">
@@ -32,7 +36,12 @@ const SeriesCard = ({ series, loading }) => {
           <>
             <Image
               source={{
-                uri: `${series.thumbnail.path}.${series.thumbnail.extension}`,
+                uri:
+                  series.thumbnail &&
+                  series.thumbnail.path &&
+                  series.thumbnail.extension
+                    ? `${series.thumbnail.path}.${series.thumbnail.extension}`
+                    : "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg", // Fallback image
               }}
               style={{ width: cardWidth, height: 200 }}
               className="rounded-none"

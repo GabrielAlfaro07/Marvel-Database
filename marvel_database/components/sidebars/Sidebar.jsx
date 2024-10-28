@@ -24,7 +24,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         left: 0,
         height: "100%",
         width: "40%", // Adjusted for the width
-        backgroundColor: "rgba(31, 41, 55, 1)", // Tailwind bg-gray-800
+        backgroundColor: "#ec1d24",
         zIndex: 50,
       }}
     >
