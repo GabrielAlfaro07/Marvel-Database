@@ -39,10 +39,10 @@ const ProfileButton = () => {
         onPress={() => setShowProfile(!showProfile)}
         className="p-4"
       >
-        <FontAwesomeIcon icon={faUser} size={24} />
+        <FontAwesomeIcon icon={faUser} size={24} color="white" />
       </TouchableOpacity>
       {showProfile && (
-        <View className="absolute top-12 right-0 bg-white rounded-3xl w-64">
+        <View className="absolute top-14 right-0 bg-white rounded-3xl w-64">
           {user ? (
             <ProfileDisplay
               user={user}

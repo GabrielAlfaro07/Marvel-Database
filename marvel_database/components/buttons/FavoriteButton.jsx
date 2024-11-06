@@ -44,7 +44,10 @@ const FavoriteButton = ({ itemId, itemType }) => {
 
   return (
     <TouchableOpacity onPress={handleToggleFavorite}>
-      <View className="p-4 bg-gray-600 border-white border-2 rounded-xl">
+      <View
+        className="p-4 border-white border-2 rounded-xl"
+        style={{ backgroundColor: "#ec1d24" }}
+      >
         <FontAwesomeIcon
           icon={faStar}
           size={32}

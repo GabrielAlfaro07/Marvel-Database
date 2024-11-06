@@ -5,7 +5,7 @@ const Carousel = ({ data, CardComponent, type }) => {
   if (data.length === 0) {
     return (
       <Text
-        className="italic text-center text-gray-500 pt-1 pb-3"
+        className="italic text-center text-white pt-1 pb-3"
         style={{
           fontFamily: "MarvelRegular",
         }}

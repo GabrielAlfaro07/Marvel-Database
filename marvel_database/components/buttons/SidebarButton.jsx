@@ -8,11 +8,7 @@ const SidebarButton = ({ toggleSidebar, isOpen }) => {
     <View className="absolute top-2 left-2 z-50">
       <TouchableOpacity onPress={toggleSidebar} className="p-4">
         {/* Change color based on whether the sidebar is open */}
-        <FontAwesomeIcon
-          icon={faBars}
-          color={isOpen ? "white" : "black"}
-          size={24}
-        />
+        <FontAwesomeIcon icon={faBars} color={"white"} size={24} />
       </TouchableOpacity>
     </View>
   );
